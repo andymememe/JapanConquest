@@ -124,7 +124,6 @@ void SetupScreen2Text()
 { 
     u8 i;
     u8 colorByte = (COLOR_BLACK << 4) | COLOR_TRANSPARENT;
-    VDP_EnableDisplay(FALSE);
     
     // 1. 設定文字顏色：ASCII 32~90 (全螢幕 3 個區塊皆設為 0xF0 白字黑底)
     // 59 個字元 * 8 bytes = 472 bytes
@@ -144,13 +143,11 @@ void SetupScreen2Text()
         // 寫入底部 (Row 16~23，你的 UI 就在這裡！)
         VDP_WriteVRAM_16K(&g_MiniFont[i * 8], 0x1000 + offset, 8); 
     }
-    VDP_EnableDisplay(TRUE);
 }
 
 void InitPrefectureGraphics() 
 { 
     u8 i; 
-    VDP_EnableDisplay(FALSE);
     for(i = 0; i < TOTAL_PREFECTURES; i++) 
     { 
         u16 offset = (PREF_START_CHR + i) * 8;
@@ -159,13 +156,11 @@ void InitPrefectureGraphics()
         VDP_WriteVRAM_16K(g_BlockPattern, 0x0800 + offset, 8); 
         VDP_WriteVRAM_16K(g_BlockPattern, 0x1000 + offset, 8); 
     } 
-    VDP_EnableDisplay(TRUE);
 } 
 
 void UpdateMapColors() 
 { 
     u8 i;
-    VDP_EnableDisplay(FALSE);
     for(i = 0; i < TOTAL_PREFECTURES; i++) 
     { 
         u8 level = g_MyPrefLevels[i]; 
@@ -184,13 +179,11 @@ void UpdateMapColors()
         VDP_FillVRAM_16K(colorByte, 0x2800 + offset, 8); 
         VDP_FillVRAM_16K(colorByte, 0x3000 + offset, 8); 
     } 
-    VDP_EnableDisplay(TRUE);
 } 
 
 void DrawMapLayout() 
 { 
     u8 y, x;
-    VDP_EnableDisplay(FALSE);
     for(y = 0; y < MAP_H; y++) 
     { 
         for(x = 0; x < MAP_W; x++) 
@@ -205,7 +198,6 @@ void DrawMapLayout()
             } 
         } 
     } 
-    VDP_EnableDisplay(TRUE);
 } 
 
 u16 CalculateTotalScore() 
@@ -252,7 +244,6 @@ void DrawScoreSafe(u8 x, u8 y, u16 value) {
 void DrawUI() 
 {
     u16 score;
-    VDP_EnableDisplay(FALSE);
     
     // 全部改用我們自製的安全函式！
     DrawTextSafe(2, 18, "----------------------------"); 
@@ -291,7 +282,6 @@ void DrawUI()
     } else { 
         DrawTextSafe(2, 23, "USE ARROWS TO NAVIGATE    "); 
     }
-    VDP_EnableDisplay(TRUE);
 } 
 
 void main() 
