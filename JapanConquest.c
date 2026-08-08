@@ -1,7 +1,6 @@
 #include "msxgl.h" 
 #include "vdp.h" 
 #include "input.h" 
-#include "print.h"  
 #include "system.h"
 
 #define MAP_W 24 
@@ -125,10 +124,10 @@ void SetupScreen2Text()
 { 
     u8 i;
     u8 colorByte = (COLOR_BLACK << 4) | COLOR_TRANSPARENT;
+    VDP_EnableDisplay(FALSE);
     
     // 1. 設定文字顏色：ASCII 32~90 (全螢幕 3 個區塊皆設為 0xF0 白字黑底)
     // 59 個字元 * 8 bytes = 472 bytes
-    VDP_EnableDisplay(FALSE);
     VDP_FillVRAM_16K(colorByte, 0x2000 + (32 * 8), 472); 
     VDP_FillVRAM_16K(colorByte, 0x2800 + (32 * 8), 472); 
     VDP_FillVRAM_16K(colorByte, 0x3000 + (32 * 8), 472); 
@@ -302,10 +301,7 @@ void main()
 
     VDP_SetMode(VDP_MODE_SCREEN2);
     VDP_EnableVBlank(1); 
-    VDP_ClearVRAM(); 
-
-    Print_Initialize(); 
-    Print_Clear(); 
+    VDP_ClearVRAM();
 
     SetupScreen2Text();
 
